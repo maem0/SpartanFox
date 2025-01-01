@@ -1,0 +1,625 @@
+:root {
+  &[inFullscreen],
+  &:not([tabsintitlebar]) {
+    --uc-tab-top-margin: 0px !important;
+  }
+
+  /* Remove extra space at the top when the window is maximised or the menu bar
+   * is active, only on platforms other than macOS. */
+  @media not (-moz-platform: macos) {
+    &[sizemode="maximized"],
+    & #toolbar-menubar:not([inactive]) + #TabsToolbar,
+    &:has(#toolbar-menubar:not([inactive])) {
+      --uc-tab-top-margin: 0px !important;
+    }
+  }
+
+  & #TabsToolbar {
+    --tab-min-height: 24px !important;
+    --inline-tab-padding: 6px !important;
+    --uc-inline-pinned-tab-padding: 12px !important;
+    --tab-border-radius: 0px !important;
+    --toolbarbutton-inner-padding: 6px !important;
+    --uc-toolbarbutton-inner-inline-padding: 8px !important;
+    --toolbarbutton-border-radius: 0px !important;
+    --tabs-navbar-shadow-size: 0px !important;
+    --tab-shadow-max-size: 0 !important;
+    --uc-tab-separator-height: 20px;
+    --uc-toolbarbutton-block-margin: 2px;
+
+
+    /* Gap between tab and adjacent buttons (+2px button margin). */
+    --uc-toolbarbutton-tab-gap: 2px;
+
+    @media (-moz-bool-pref: "uc.tweak.rounded-corners") {
+      --tab-border-radius: 8px !important;
+      --uc-toolbarbutton-tab-gap: 6px;
+    }
+  }
+}
+
+/* ::::: Tab transitions ::::: */
+
+/* Tab grow/shrink transition. */
+.tabbrowser-tab:not([pinned]) {
+  transition-property: min-width, max-width, opacity, transform !important;
+  transition-duration: 150ms !important;
+  transition-timing-function: cubic-bezier(0, .75, .25, 1) !important;
+}
+
+
+/* Add slide-up animation to newly created tabs */
+.tabbrowser-tab[fadein] {
+  animation: slide-up 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Define the keyframes for the slide-up animation */
+@keyframes slide-up {
+  0% {
+    transform: translateY(34px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+/* Tab moving transition. */
+#tabbrowser-tabs[movingtab] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[fadein]:not([selected]):not([multiselected]),
+.tabbrowser-tab[tab-grouping],
+.tabbrowser-tab[tabdrop-samewindow] {
+  transition: transform 200ms cubic-bezier(0, .75, .25, 1) !important;
+}
+
+/* Remove tab toolbar background transition on inactive windows. */
+#navigator-toolbox {
+  transition: none !important;
+}
+
+/* ::::: Tabs toolbar & button appearance ::::: */
+/* #region */
+
+#TabsToolbar {
+  /* Padding between the edge of the toolbar and its content. */
+  padding-inline-start: 8px !important;
+
+  /* Remove any existing margins from toolbar buttons. */
+  & .toolbarbutton-1 {
+    margin: 0 !important;
+  }
+
+  /* Tab toolbar button sizing. */
+  & .toolbarbutton-1 > .toolbarbutton-icon,
+  & .toolbarbutton-1 > .toolbarbutton-badge-stack {
+    border-radius: var(--toolbarbutton-border-radius) !important;
+    padding: var(--toolbarbutton-inner-padding) var(--uc-toolbarbutton-inner-inline-padding) !important;
+    /* Add margin-block to buttons so they are positioned correctly. */
+    margin: var(--uc-toolbarbutton-block-margin) 0 !important;
+  }
+
+  & .toolbarbutton-1 > .toolbarbutton-icon {
+    width: calc(2 * var(--uc-toolbarbutton-inner-inline-padding) + 16px) !important;
+    height: calc(2 * var(--toolbarbutton-inner-padding) + 16px) !important;
+  }
+
+  /* Keep certain buttons (such as new tab) square shaped. */
+  & #tabs-newtab-button > .toolbarbutton-icon,
+  & #alltabs-button > .toolbarbutton-badge-stack,
+  & #tabbrowser-tabs[hasadjacentnewtabbutton][overflow] ~ #new-tab-button > .toolbarbutton-icon {
+    padding: var(--toolbarbutton-inner-padding) !important;
+    width: calc(2 * var(--toolbarbutton-inner-padding) + 20px) !important;
+  }
+
+  /* Toolbar buttons should use the same colour as unselected tabs. */
+  & .toolbarbutton-animatable-box,
+  & .toolbarbutton-1 {
+    fill: currentColor !important;
+  }
+
+  & #TabsToolbar-customization-target {
+    /* Vertically align toolbar buttons to the bottom of the tab bar. */
+    align-items: end !important;
+
+    /* Reduce space between start of the window and first toolbar button. */
+    & > .toolbarbutton-1:nth-child(1 of .toolbarbutton-1:not(#tabbrowser-tabs ~ *)) {
+      margin-inline-start: -2px !important;
+    }
+
+    /* Add space after the last toolbar button before the tabs. */
+    & > .toolbarbutton-1:nth-last-child(1 of .toolbarbutton-1:not(#tabbrowser-tabs ~ *)),
+    :root[privatebrowsingmode] & > .toolbarbutton-1:nth-last-child(1 of .toolbarbutton-1:not(#tabbrowser-tabs ~ *):not(#firefox-view-button)) {
+      margin-inline-end: calc(var(--uc-toolbarbutton-tab-gap) + 2px) !important;
+
+      /* Reduces space between this button and the tab scroll button when
+       * overflowed for consistency. */
+      &:has(~ #tabbrowser-tabs[overflow]) {
+        margin-inline-end: 2px !important;
+      }
+    }
+  }
+}
+
+
+/* Compact tabs */
+:root {
+  --tab-min-height: 19px !important;      /* Reduced from 24px */
+  --tab-block-margin: 2px !important;     /* Space above/below tabs */
+  --tabs-navbar-shadow-size: 0 !important; /* Remove tab bar shadow */
+  --tab-shadow-max-size: 0 !important;    /* Remove individual tab shadows */
+}
+
+/* Remove tab shadows and outline */
+.tab-background[selected] {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove left margin from tabs container */
+#tabbrowser-tabs {
+  margin-inline-start: 0 !important;
+  padding-inline-start: 0 !important;
+}
+
+/* Remove padding from the tabs toolbar */
+#TabsToolbar {
+  padding-inline-start: 0 !important;
+}
+
+/* Adjust tab content for compact size */
+.tab-content {
+  padding-block: 2px !important;
+  padding-inline: 4px 0 !important;
+}
+
+/* Hide close button by default */
+.tab-close-button {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition: opacity 0.2s, visibility 0.2s !important;
+}
+
+/* Show close button when tab is selected (active) or hovered */
+.tabbrowser-tab:is([selected], :hover) .tab-close-button {
+  opacity: 1 !important;
+  background-color: 0;
+  visibility: visible !important;
+}
+
+/* Ensure the close button remains properly styled when visible */
+.tab-close-button {
+  margin-inline-end: 8px !important;
+  width: 17px !important;
+  height: 17px !important;
+  padding: 4px !important;
+  border-radius: var(--toolbarbutton-border-radius) !important;
+}
+
+/* Adjust tab icon spacing */
+.tab-icon-stack {
+  margin-inline-start: 6px !important; /* Add more space to the left */
+  margin-inline-end: 2px !important;  /* Adjust space to the right */
+}
+
+
+/* Remove any overflow padding */
+#tabbrowser-tabs {
+  &:not([overflow]) {
+    margin-inline-start: 0 !important;
+  }
+}
+#tabbrowser-tabs {
+  /* Remove the border from the left of the tab bar. */
+  border-inline: none !important;
+  padding-inline-start: var(--tab-overflow-pinned-tabs-width) !important;
+
+  /* Add space above the tabs. */
+  margin-top: var(--uc-tab-top-margin) !important;
+
+  /* Pull tabs closer to toolbar buttons when overflowed. */
+  &[overflow]:not([haspinnedtabs]) {
+    margin-inline-start: -2px !important;
+  }
+
+  /* Remove gap between pinned and unpinned tabs. */
+  &[haspinnedtabs]:not([positionpinnedtabs]) .tabbrowser-tab:nth-child(1 of :not([pinned], [hidden])) {
+    margin-inline-start: 0 !important;
+  }
+}
+
+/* Add space between last tab and new tab button. */
+#tabbrowser-tabs #tabs-newtab-button {
+  margin-inline-start: var(--uc-toolbarbutton-tab-gap) !important;
+}
+
+/* Tab scrolling buttons. */
+#scrollbutton-up:not(.menupopup-scrollbutton),
+#scrollbutton-down:not(.menupopup-scrollbutton) {
+  border-width: 2px !important;
+  border-radius: calc(var(--toolbarbutton-border-radius) ) !important;
+  padding-inline: calc(var(--toolbarbutton-inner-padding) - 4px) !important;
+  padding-block: var(--toolbarbutton-inner-padding) !important;
+}
+
+/* Add margin to the side of the button facing the tabs so the buttons line up
+ * on the opposite side with others in the toolbar.
+ */
+#scrollbutton-up:not(.menupopup-scrollbutton) {
+  margin-inline: 0 2px !important;
+}
+
+#scrollbutton-down:not(.menupopup-scrollbutton) {
+  margin-inline: 2px 0 !important;
+}
+
+/* Hide pre-tabs spacer as it isn't needed. */
+.titlebar-spacer[type="pre-tabs"] {
+  display: none !important;
+}
+
+
+
+/* ::::: Tab appearance ::::: */
+/* #region */
+
+.tabbrowser-tab {
+  font-size: 12.5px !important;
+  padding-inline: 0 !important;
+
+  /* Set width of tabs. */
+  &:not([pinned], [style*="max-width"])[fadein] {
+    max-width: 200px !important;
+  }
+
+  /* Enforce tab foreground colour. */
+  &:is([visuallyselected], [multiselected]) {
+    color: var(--tab-selected-textcolor) !important;
+
+    &:-moz-window-inactive {
+      color: var(--tab-selected-textcolor-inactive, var(--tab-selected-textcolor)) !important;
+    }
+  }
+}
+
+.tab-content {
+  padding-inline: 4px 0 !important; /* Example: reduce horizontal padding */
+}
+
+/* Space between tab icons and the tab titles. */
+.tab-throbber:not([pinned]),
+.tab-icon-pending:not([pinned]),
+.tab-icon-image:not([pinned]),
+.tab-sharing-icon-overlay:not([pinned]) {
+  margin-inline-end: calc(var(--inline-tab-padding) - 1px) !important;
+}
+
+/* Make sure that the tabs are the correct height. */
+#tabbrowser-tabs .tab-label-container {
+  height: var(--tab-min-height) !important;
+
+  /* Hide tab audio indicator label. */
+  & .tab-secondary-label {
+    display: none !important;
+  }
+}
+
+
+.tab-icon-image {
+  width: 14px !important; /* Adjust width */
+  height: 14px !important; /* Adjust height */
+}
+
+
+/* Tab close button styling. */
+.tab-close-button {
+  margin-inline-end: 8px !important;
+  width: 18px !important;
+  height: 18px !important;
+  padding: 4px !important;
+  border-radius: var(--toolbarbutton-border-radius) !important;
+}
+
+/* Ensure that unselected tabs use full opacity and correct colours.
+ * Also ensures that the tab's icon is always visible.
+ */
+.tab-label-container:not([selected="true"], [multiselected]),
+.tab-icon-stack[indicator-replaces-favicon] > :not(.tab-icon-overlay) {
+  opacity: 1 !important;
+}
+
+/* Change width of the gradient mask located on the right of the tab labels. */
+#tabbrowser-tabs[closebuttons="activetab"] .tabbrowser-tab .tab-label-container {
+  --tab-label-mask-size: 1em !important;
+}
+
+/* Tab container indicator. */
+.tabbrowser-tab[usercontextid] {
+  & .tab-context-line {
+    height: 2px !important;
+    border-radius: 2px !important;
+    margin: 2px 7px 0 !important;
+  }
+
+  &[selected] .tab-context-line {
+    margin-inline: 9px !important;
+  }
+}
+
+/* ::::: Tab audio indicator ::::: */
+
+/* Move the audio indicator to the right of the tab's icon. */
+#tabbrowser-tabs:not([closebuttons="activetab"]) .tab-icon-overlay:not([pinned]) {
+  margin-inline: 22px 6px !important;
+}
+
+/* When there is no tab icon, move indicator to the left. */
+#tabbrowser-tabs .tabbrowser-tab:not([image]) .tab-icon-overlay:not([pinned]) {
+  margin-inline: 0px 6px !important;
+}
+
+/* Overlay the audio indicator onto the tab icon when there isn't enough space. */
+.tab-icon-overlay:not([crashed]):is([pinned], [sharing]),
+#tabbrowser-tabs[closebuttons="activetab"] .tab-icon-overlay:not([crashed]) {
+  top: -5.5px !important;
+  inset-inline-end: -6px !important;
+}
+
+/* Set colour for the overlay tab audio indicator. */
+#tabbrowser-tabs[closebuttons="activetab"] {
+  & .tab-icon-overlay:is([soundplaying], [muted], [activemedia-blocked]):not([crashed]) {
+    stroke: var(--tab-icon-overlay-stroke, light-dark(white, black)) !important;
+    color: var(--tab-icon-overlay-fill, light-dark(black, white)) !important;
+    fill-opacity: 1 !important;
+
+    &:hover {
+      background-color: var(--tab-icon-overlay-stroke, light-dark(white, black)) !important;
+    }
+  }
+}
+
+/* Add border radius to the tab audio indicator. */
+.tab-icon-overlay:is([soundplaying], [muted], [activemedia-blocked]):not([crashed]) {
+  border-radius: var(--toolbarbutton-border-radius) !important;
+  padding: 0 !important;
+}
+
+/* Ensure the audio indicator is visible when needed. */
+.tab-icon-stack:is([soundplaying], [muted], [activemedia-blocked]) > .tab-icon-overlay {
+  opacity: 1 !important;
+}
+/* #endregion */
+
+
+/* ::::: Tab background and bottom rounded corners ::::: */
+/* #region */
+
+.tab-background {
+  border-radius: var(--tab-border-radius);
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  margin-block: 0 !important;
+  border: 0 !important;
+  position: relative !important;
+  --uc-tab-corner-bg: transparent;
+  --uc-tab-corner-outline: transparent;
+
+  /* Both rounded bottom corners. */
+  &::before,
+  &::after {
+    content: "" !important;
+    position: absolute !important;
+    width: var(--tab-border-radius) !important;
+    aspect-ratio: 1 / 1;
+    bottom: 0 !important;
+    pointer-events: none !important;
+    clip-path: inset(0);
+  }
+
+  /* Bottom left corner. */
+  &::before {
+    border-bottom-right-radius: var(--tab-border-radius) !important;
+    left: 0 !important;
+    translate: calc(-1 * var(--tab-border-radius)) 0 !important;
+
+  }
+
+  /* Bottom right corner. */
+  &::after {
+    border-bottom-left-radius: var(--tab-border-radius) !important;
+    right: 0 !important;
+    translate: var(--tab-border-radius) 0 !important;
+
+  }
+
+  /* Make sure that the bottom corners have the same background colour. */
+  &:is([selected], [multiselected]) {
+    --uc-tab-corner-bg: var(--tab-selected-bgcolor, var(--lwt-selected-tab-background-color, var(--toolbar-bgcolor)));
+    --uc-tab-corner-outline: var(--lwt-tab-line-color, transparent);
+    /* Disable tab outlines when selected. */
+    outline: none !important;
+  }
+
+  /* Tab hover background colour. */
+  .tabbrowser-tab:hover &:not([selected], [multiselected]) {
+    background-color: color-mix(in srgb, currentColor 8%, transparent) !important;
+    --uc-tab-corner-bg: color-mix(in srgb, currentColor 8%, transparent) !important;
+
+    /* When in light mode, the hover colour should be white. */
+    #TabsToolbar:not([brighttext]) & {
+      background-color: rgb(255 255 255 / .3) !important;
+      --uc-tab-corner-bg: rgb(255 255 255 / .3) !important;
+
+      @media (-moz-bool-pref: "uc.tweak.floating-tabs") {
+        background-color: var(--toolbar-bgcolor) !important;
+        --uc-tab-corner-bg: var(--toolbar-bgcolor) !important;
+      }
+    }
+  }
+
+  /* When tabs are selected but not active, they should have a partially
+   * transparent background. */
+  #tabbrowser-tabs &[multiselected]:not([selected]) {
+    box-shadow: none !important;
+    opacity: 0.7 !important;
+  }
+}
+
+/* Disable bottom left rounded corner to prevent overlapping transparent tabs.
+ *
+ * If a tab is selected, then the next tab's bottom-left corner should be
+ * inverted to prevent overlap with the transparent backgrounds.
+ *
+ * If the next tab is hidden, then find the next visible tab which would be
+ * positioned next to the active tab.
+ */
+.tabbrowser-tab:is([selected], [multiselected]):not([hidden]) {
+  & + .tabbrowser-tab .tab-background:not([selected]),
+  & + .tabbrowser-tab[hidden] ~ .tabbrowser-tab:not([hidden]):is([hidden] + *) .tab-background:not([selected]) {
+    border-bottom-left-radius: var(--tab-border-radius) !important;
+
+    &::before {
+      --uc-tab-corner-bg: transparent !important;
+    }
+  }
+}
+/* #endregion */
+
+
+/* ::::: Tab separators ::::: */
+/* #region */
+
+.tabbrowser-tab .tab-stack {
+  /* Both side separators. */
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    height: var(--uc-tab-separator-height);
+    inset-block: 0;
+    margin-block: auto;
+    border-left: 1px solid transparent;
+
+  }
+
+  /* Fractional scaling adjustments (150%, 175%, etc.) */
+  @media (1dppx < resolution < 2dppx) {
+    &::before,
+    &::after {
+      border-left-width: 1.5px !important;
+    }
+  }
+
+  /* Left side separators. */
+  &::before {
+    left: 0;
+  }
+
+  /* Right side separators. */
+  &::after {
+    right: 0;
+  }
+}
+
+/* Set separator color and add separator for last visible tab. */
+.tabbrowser-tab:not([selected], [multiselected], :hover) {
+  /* All tabs. */
+  & .tab-stack::before,
+  /* Last visible tab. */
+  &:nth-last-child(1 of .tabbrowser-tab:not([hidden])) .tab-stack::after,
+  /* Last visible pinned tab when overflowed. */
+  #tabbrowser-tabs[overflow] &:nth-last-child(1 of .tabbrowser-tab[pinned]:not([hidden])) .tab-stack::after {
+    border-color: color-mix(in srgb, currentColor 34%, transparent);
+  }
+}
+
+/* Hide tab separator when previous tab is hovered or selected.
+ *
+ * If a tab is selected, then the next tab's left separator should be hidden.
+ *
+ * If the next tab is hidden, then find the next visible tab.
+ */
+.tabbrowser-tab:is([selected], [multiselected], :hover):not([hidden]) {
+  & + .tabbrowser-tab .tab-stack::before,
+  & + .tabbrowser-tab[hidden] ~ .tabbrowser-tab:not([hidden]):is([hidden] + *) .tab-stack::before {
+    border-color: transparent !important;
+  }
+}
+
+/* Hide the first tab's separator for specific buttons before the tabs.
+ *
+ * If in private browsing mode, the Firefox View button is hidden, so the
+ * separator should also be hidden as long as there are no other buttons before
+ * it. If the Firefox account button is just before the tabs, then the separator
+ * should stay hidden.
+ *
+ * If the button directly before the tabs is the Firefox account button, the
+ * separator should be hidden.
+ *
+ * If there are no buttons before the tabs, hide the separator.
+ */
+:root[privatebrowsingmode] #firefox-view-button + #tabbrowser-tabs:not(.toolbarbutton-1:not(#fxa-toolbar-menu-button) + #firefox-view-button + #tabbrowser-tabs),
+#fxa-toolbar-menu-button + #tabbrowser-tabs,
+#tabbrowser-tabs:first-child {
+  & .tabbrowser-tab:nth-child(1 of .tabbrowser-tab:not([hidden])) .tab-stack::before {
+    border-color: transparent !important;
+  }
+}
+/* #endregion */
+
+
+/* Prevent interference with context menu arrowscrollbox. */
+#tabbrowser-arrowscrollbox {
+  --uc-padding-top: 4px;
+  --uc-margin-top: -4px;
+  --uc-padding-inline-end: var(--tab-border-radius)
+}
+
+/* Make room for the tab shadows so they aren't clipped at the top. */
+.scrollbox-clip > scrollbox {
+  padding-top: var(--uc-padding-top, 0) !important;
+  margin-top: var(--uc-margin-top, 0) !important;
+  /* Used to fix tab overflow issue with rounded corners. */
+  padding-inline-end: var(--uc-padding-inline-end, 0) !important;
+}
+
+/* Add some room horizontally for the tab shadows and rounded corners. */
+#tabbrowser-tabs {
+  &:not([overflow]) {
+    margin-inline-start: -8px !important;
+    margin-inline-end: calc(-1 * var(--tab-border-radius)) !important;
+
+    #tabbrowser-arrowscrollbox .tabbrowser-tab:nth-child(1 of .tabbrowser-tab:not([hidden])) {
+      margin-inline-start: 8px !important;
+    }
+  }
+}
+
+/* Clip the bottom of the tabs so the shadows don't bleed into other areas. */
+#tabbrowser-tabs[positionpinnedtabs] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[pinned] {
+  clip-path: inset(-8px -8px 0) !important;
+
+
+}
+/* #endregion */
+
+
+/* ::::: Private browsing indicator ::::: */
+/* #region */
+
+#private-browsing-indicator-with-label {
+  position: absolute !important;
+  left: 8px !important;  
+  background-color: #1a5290;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 1 !important;
+}
+
+#tabbrowser-tabs {
+  margin-left: 100px !important; 
+}
+
+#TabsToolbar {
+  padding-inline-start: 0 !important;
+}

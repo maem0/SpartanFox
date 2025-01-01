@@ -1,0 +1,39 @@
+@-moz-document url-prefix("about:newtab"),
+url-prefix("about:home") {
+    /* Hide unnecessary icons */
+    .top-sites-list, /* Top Sites section */
+    .pocket-section, /* Pocket section */
+    .logo-and-wordmark, /* Firefox logo */
+    .search-bottom-links { /* Footer links */
+        display: none !important;
+    }
+
+    /* Center the search bar */
+    .outer-wrapper.only-search {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        height: 100vh !important;
+        padding: 0 !important;
+    }
+
+    /* Square search bar styling */
+    .search-wrapper {
+        border: none !important;
+        box-shadow: none !important;
+        background: #ffffff !important; /* Match the background color */
+        border-radius: 0px !important; /* Make the search bar square */
+        width: 400px !important; /* Adjust width as needed */
+        height: 50px !important; /* Adjust height as needed */
+    }
+
+    /* Page background color */
+    body {
+        background-color: #f7f7f7 !important;
+    }
+
+    /* Hide pinned icons */
+    .icon.icon-pin-small {
+        display: none !important;
+    }
+}

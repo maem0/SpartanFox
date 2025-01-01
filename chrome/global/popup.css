@@ -1,0 +1,135 @@
+/* --- Keyframe Animation for Dropdown --- */
+@keyframes dropdown-expand {
+  0% {
+    transform: scaleY(0.1);
+
+  }
+  100% {
+    transform: scaleY(1);
+
+  }
+}
+
+/* --- Dropdown Animation Settings --- */
+#appMenu-popup,
+.menupopup-arrowscrollbox {
+
+  animation: dropdown-expand 150ms ease-in-out;
+  transform-origin: top center;
+  overflow: hidden; /* Prevent scrollbar flicker during animation */
+}
+
+/* Reset animation dynamically when necessary */
+.dynamic-animated {
+  animation: none !important;
+}
+
+/* --- Styling: Remove Rounded Corners --- */
+#appMenu-popup,
+.menupopup-arrowscrollbox,
+panelview {
+  
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+:root {
+  --arrowpanel-border-radius: 0px !important;
+  --menu-border-radius: 0px !important;
+  --panel-border-radius: 0px !important;
+  --panel-corner-radius: 0 !important;
+  --menu-padding: 0 !important;
+  --arrowpanel-padding: 0 !important;
+  margin: 0 !important;
+  
+}
+
+#appMenu-popup .panel-arrowcontent {
+  border-radius: 0 !important;
+  padding: 0 !important;
+  
+  margin: 0 !important;
+
+}
+
+/* --- Hide Icons in Main Dropdown Menu --- */
+#appMenu-popup .menu-iconic-icon,
+#appMenu-popup .subviewbutton-icon,
+#appMenu-popup .toolbarbutton-icon {
+  display: none !important;
+}
+
+
+#appMenu-zoom-controls .menu-iconic-icon,
+#appMenu-zoom-controls .subviewbutton-icon {
+    display: inline-block !important;
+    width: auto;
+    height: auto;
+}
+
+#appMenu-zoomReduce-button2 img {
+  display: block !important;
+}
+
+#appMenu-zoomEnlarge-button2 img{
+  display: block !important;
+}
+
+
+/* --- Adjust Menu Item Text and Padding --- */
+#appMenu-popup .subviewbutton,
+#appMenu-popup .menuitem-iconic,
+#appMenu-popup .menu-text,
+#appMenu-popup .subviewbutton-text,
+#appMenu-popup .toolbarbutton-text {
+  font-size: 15px !important;
+  margin: 0 !important;
+  border-radius: 0;
+
+  padding: 6px 5px !important;
+}
+#appMenu-popup {
+
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+#appMenu-popup .menupopup-arrowscrollbox {
+  width: 100% !important;
+  box-sizing: border-box; /* Match parent width */
+  overflow-x: hidden; /* Avoid horizontal scrolling */
+}
+
+#appMenu-popup .subviewbutton:hover,
+#appMenu-popup .menuitem-iconic:hover {
+  border-radius: 0 !important;
+  
+
+}
+
+
+/* --- Remove Unnecessary Spacing --- */
+.menupopup-arrowscrollbox {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* --- Separator Styling --- */
+#appMenu-popup menuseparator {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+
+#appMenu-fxa-status2,
+#appMenu-fxa-separator {
+  display: none !important;
+}
+
+
+#appMenu-zoom-controls {
+  color: #000;
+  opacity: 1;
+}
+

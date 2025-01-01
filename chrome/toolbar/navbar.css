@@ -1,0 +1,38 @@
+
+:root {
+  --toolbarbutton-border-radius: 0px !important;
+  --toolbarbutton-inner-padding: 10px !important;  /* Increase from 12px */
+  --uc-toolbarbutton-inner-inline-padding: 14px !important;  /* Increase from 12px */
+  --toolbarbutton-outer-padding: 0px !important;
+  --tabs-navbar-shadow-size: 0px !important;
+}
+
+
+
+#nav-bar .toolbarbutton-1>.toolbarbutton-icon,
+#nav-bar .toolbarbutton-1>.toolbarbutton-text,
+#nav-bar .toolbarbutton-1>.toolbarbutton-badge-stack {
+  padding-inline: var(--uc-toolbarbutton-inner-inline-padding) !important;
+  box-sizing: border-box;
+}
+
+/* move reload/stop icon to middle of button */
+#reload-button>.toolbarbutton-animatable-box,
+#stop-button>.toolbarbutton-animatable-box {
+  top: calc(50% - 10px) !important;
+}
+
+#nav-bar-customization-target :where(#reload-button, #stop-button)>.toolbarbutton-icon {
+  padding: var(--toolbarbutton-inner-padding) var(--uc-toolbarbutton-inner-inline-padding) !important;
+}
+
+toolbar .toolbaritem-combined-buttons {
+  margin-inline: 0 !important;
+}
+
+#nav-bar .toolbarbutton-1 > .toolbarbutton-icon {
+  width: 48px !important;
+  height: 48px !important;
+  padding-inline: var(--uc-toolbarbutton-inner-inline-padding) !important;
+}
+

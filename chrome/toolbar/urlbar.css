@@ -1,0 +1,32 @@
+
+#tracking-protection-icon-container {
+  display: none !important;
+}
+
+/* Hide the address bar suggestions when focused */
+#urlbar-results {
+  display: none !important;
+}
+
+/* Show suggestions only when typing */
+#urlbar[open] #urlbar-results {
+  display: block !important;
+}
+
+#urlbar {
+  border-left: 1px solid #919191 !important;
+  border-right: 1px solid #919191 !important;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+#urlbar:focus {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+#urlbar[focused="true"]:not([suppress-focus-border]) > #urlbar-background,
+#searchbar:focus-within {
+  outline: none;
+}
+

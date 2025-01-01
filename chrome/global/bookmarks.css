@@ -1,0 +1,55 @@
+bookmarks bar
+#sidebar-box {
+  order: 2; 
+  position: fixed;
+
+  right: -400px; 
+  width: 400px; 
+  height: 100%;
+  z-index: 1000;
+}
+
+/* Active State: Slide in */
+#sidebar-box[checked="true"] {
+  animation: slide-in 0.15s ease-in-out forwards; 
+}
+
+/* Default State: Slide out */
+#sidebar-box:not([checked="true"]) {
+  animation: slide-out 0.15s ease-in-out forwards; 
+}
+
+/* Slide-in Keyframes */
+@keyframes slide-in {
+  from {
+    right: -300px; 
+  }
+  
+  to {
+    right: 0; 
+  }
+}
+
+/* Slide-out Keyframes NOT WORKING*/
+@keyframes slide-out {
+  from {
+    right: 0;
+  }
+  to {
+    right: -300px; 
+  }
+}
+
+/* Sidebar Header */
+#sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Sidebar Content */
+#sidebar {
+  width: 100%;
+  height: calc(100% - 30px);
+  overflow: auto;
+}
