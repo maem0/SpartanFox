@@ -1,0 +1,101 @@
+@media (-moz-platform: linux) {
+    /* Force titlebar to be square */
+    #navigator-toolbox {
+        border-top-left-radius: unset !important;
+        border-top-right-radius: unset !important;
+    }
+
+
+    /* Give Linux the Windows 10 titlebar buttons */
+    .titlebar-buttonbox-container {
+        order: 1000 !important; /* forces buttons to right */
+    }
+
+    .titlebar-button {
+        background: transparent !important;
+        border-radius: 0 !important;
+        transition: background-color 100ms linear; /* hover-fade animation */
+        display: flex !important; /* force all three titlebar buttons to be permanently visible */
+        height: 30px;
+        width: 46px;
+        color: var(--titlebar-button-foreground, inherit) !important;
+        &:-moz-window-inactive {
+            color: var(--titlebar-button-foreground-inactive, inherit) !important;
+        }
+
+        /* Hover and pressed states */
+        &:not([disabled]):hover {
+            background: color-mix(in srgb, currentColor 12%, transparent) !important;
+
+            &:active {
+                background: color-mix(in srgb, currentColor 22%, transparent) !important;
+                transition: none;
+            }
+        }
+
+        /* Make the stroke actually visible */
+        -moz-context-properties: stroke !important;
+        .toolbarbutton-icon {
+            stroke: currentColor !important;
+        }
+
+        image {
+            appearance: none !important; /* Required to hide the standard titlebuttons since 12X */
+            background: none !important;
+            border-radius: unset !important;
+            padding: unset !important;
+        }
+    }
+
+    /* Halve opacity if window's inactive */
+    &:-moz-window-inactive {
+        .titlebar-button:not(:hover, :active) {
+            opacity: 0.5;
+        }
+    }
+
+    /* Close button */
+    .titlebar-close {
+        list-style-image: url(chrome://browser/skin/window-controls/close.svg) !important;
+        order: 2 !important; /* Force close to be the last of the 3 */
+
+        &:not([disabled]):hover {
+            background: hsl(355,86%,49%) !important;
+            color: white !important;
+        }
+
+        &:not([disabled]):hover:active {
+            background: hsl(355,82%,69%) !important;
+            color: white !important;
+        }
+    }
+
+    /* Maximise and Restore buttons */
+    .titlebar-max {
+        list-style-image: url(chrome://browser/skin/window-controls/maximize.svg) !important;
+    }
+    &[sizemode="maximized"],
+    &[sizemode="fullscreen"] {
+        .titlebar-max {
+            display: none !important;
+        }
+    }
+    .titlebar-restore {
+        list-style-image: url(chrome://browser/skin/window-controls/restore.svg) !important;
+    }
+    &:not([sizemode="maximized"]):not([sizemode="fullscreen"]) {
+        .titlebar-restore {
+            display: none !important;
+        }
+    }
+    .titlebar-max,
+    .titlebar-restore {
+        order: 1 !important;
+    }
+
+    /* Minimise button */
+    .titlebar-min {
+        list-style-image: url(chrome://browser/skin/window-controls/minimize.svg) !important;
+        order: 0 !important;
+    }
+}
